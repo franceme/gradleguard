@@ -1,0 +1,20 @@
+# Compiled class filetarget/
+.gradle
+.idea
+/build/
+/bin/
+/target/
+/release/
+/.settings/
+.project
+/*.jar
+/*.tar
+.attach_pid*
+docs
+*.iml
+*.log
+/.ipynb_checkpoints/
+*.ipynb
+/.classpath
+/.vscode/
+/scratchSpace

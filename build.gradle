@@ -1,0 +1,42 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'groovy'
+    id 'maven-publish'
+    id 'java'
+}
+
+publishing {
+    repositories {
+        mavenLocal()
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+group groupName
+version versionNumber
+
+dependencies {
+    //Used for the plugin class
+    implementation gradleApi()
+
+    //For using the groovy files
+    implementation localGroovy()
+
+    testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
+}
+test {
+    useJUnitPlatform()
+}
+
+//The entry point, like the MANIFEST file for jar
+gradlePlugin {
+    plugins {
+        simplePlugin {
+            id = 'vt.edu.gradleguard'
+            implementationClass = 'vt.edu.gradleguard.GradleGuardPlugin'
+        }
+    }
+}
