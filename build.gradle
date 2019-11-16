@@ -5,18 +5,71 @@ plugins {
     id 'java'
 }
 
+group groupName
+version versionNumber
+
 publishing {
+    publications {
+
+        pluginMaven(MavenPublication) {
+            groupId = groupName
+            artifactId = projectName
+            version = versionNumber
+
+            pom {
+                name = "Gradleguard"
+                description = "A demonstration of Maven POM customization"
+                url = "https://www.github.com/franceme/gradleguard"
+                licenses {
+                    license {
+                        name = "GNU General Public License v3.0"
+                        url = "https://www.gnu.org/licenses/gpl-3.0.html"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "franceme"
+                    }
+                }
+                scm {
+                    connection = "git@github.com:franceme/gradleguard"
+                    developerConnection = "git@github.com:franceme/gradleguard"
+                    url = "https://www.github.com/franceme/gradleguard"
+                }
+            }
+            //Removing the Cryptoguard from the pom
+            //Done since it's loaded in with the Uber-Jar and otherwise breaks the generated pom file
+            pom.withXml {
+                asNode().dependencies.dependency.each { dep ->
+                    if (dep.artifactId.last().value().last() in ["cryptoguard"]) {
+                        assert dep.parent().remove(dep)
+                    }
+                }
+            }
+        }
+    }
     repositories {
-        mavenLocal()
+        // Just to get it started working
+        //mavenLocal()
+        maven {
+            url = "$buildDir/repo"
+        }
     }
 }
 
 repositories {
     mavenCentral()
+    flatDir {
+        dirs 'libs'
+    }
 }
 
-group groupName
-version versionNumber
+jar {
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
 
 dependencies {
     //Used for the plugin class
@@ -26,6 +79,8 @@ dependencies {
     implementation localGroovy()
 
     testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
+
+    compile name: 'cryptoguard'
 }
 test {
     useJUnitPlatform()
@@ -35,7 +90,7 @@ test {
 gradlePlugin {
     plugins {
         simplePlugin {
-            id = 'vt.edu.gradleguard'
+            id = 'vt.edu.gradleguard.plugin'
             implementationClass = 'vt.edu.gradleguard.GradleGuardPlugin'
         }
     }
