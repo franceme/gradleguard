@@ -18,7 +18,7 @@ publishing {
 
             pom {
                 name = "Gradleguard"
-                description = "A demonstration of Maven POM customization"
+                description = "The gradle plugin for Cryptoguard"
                 url = "https://www.github.com/franceme/gradleguard"
                 licenses {
                     license {
@@ -64,6 +64,7 @@ repositories {
     }
 }
 
+//Creating the Uber Jar
 jar {
 
     from {
@@ -80,7 +81,7 @@ dependencies {
 
     testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
 
-    compile name: 'cryptoguard'
+    implementation name: 'cryptoguard'
 }
 test {
     useJUnitPlatform()

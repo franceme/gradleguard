@@ -1,13 +1,11 @@
 package vt.edu.gradleguard
 
-//import frontEnd.MessagingSystem.routing.outputStructures.OutputStructure
+import frontEnd.MessagingSystem.routing.outputStructures.OutputStructure
 import groovy.io.FileType
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import vt.edu.gradleguard.core.Base
 import vt.edu.gradleguard.core.Utils
-
-import java.util.stream.Collectors
 
 class GradleGuardPlugin implements Plugin<Project> {
 
@@ -53,6 +51,7 @@ class GradleGuardPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
 
+        //region Preview Files
         //task - the name of the task
         project.task('previewFiles') {
 
@@ -61,7 +60,7 @@ class GradleGuardPlugin implements Plugin<Project> {
 
             //The code itself
             doLast {
-                
+
                 ArrayList<File> sourceFiles = new ArrayList<>()
                 ArrayList<depKlass> dependencies = new ArrayList<>()
 
@@ -102,21 +101,64 @@ class GradleGuardPlugin implements Plugin<Project> {
                 }
 
                 def File outputFile = new File(project.buildDir, "tmp/_cryptoguard.json")
-                if (outputFile.exists())
-                {
+                if (outputFile.exists()) {
                     outputFile.delete();
                     println "Using the output file at: " + outputFile.getAbsolutePath()
                 }
-                
-                //def OutputStructure struct = Base.entryPoint(
-                //        sourceFiles.stream().map(foil->foil.getAbsolutePath()).collect(Collectors.toCollection(ArrayList::String)),
-                //        dependencies.stream().map(klass->klass.file.getAbsolutePath().toString()).collect(Collectors.toCollection(ArrayList::new)),
-                //        null,
-                //        null
-                //)
-                
+            }
+        }
+        //endregion
+        //region Preview Files
+        //task - the name of the task
+        project.task('scanFiles') {
+
+            //Group is the task groups, on the side, ()
+            group = Utils.group
+
+            //The code itself
+            doLast {
+
+                ArrayList<String> sourceFiles = new ArrayList<>()
+                ArrayList<String> dependencies = new ArrayList<>()
+
+                new File(project.projectDir.toString(), 'tempBuild/classes/').eachFileRecurse(FileType.FILES) { file ->
+                    sourceFiles.add(file.getAbsolutePath())
+                }
+
+                //Cycling through all of the configurations to pull out all of the dependencies
+                project.configurations.each { conf ->
+                    conf.allDependencies.each { dep ->
+                        def curKlass = new depKlass(dep.group, dep.name, dep.version)
+
+                        //If the arraylist doesn't already contain the dependency
+                        if (!dependencies.stream().any { klass -> klass.equals(curKlass) }) {
+
+                            //Looping through all of the files in the path, pulling out the pom
+                            //Needed since the path structure is ${group}/${name}/${version}/sha1/${name}-${version}.jar
+                            new File(System.getProperty('user.home'), '.gradle/caches/modules-2/files-2.1/' + curKlass.subPath()).eachFileRecurse(FileType.FILES) { file ->
+                                if (curKlass.fileName().equals(file.name))
+                                    curKlass.setFile(file)
+                            }
+
+                            dependencies.add(curKlass.getFile().getAbsolutePath());
+                        }
+                    }
+                }
+
+                def File outputFile = new File(project.buildDir, "tmp/_cryptoguard.json")
+                if (outputFile.exists())
+                    outputFile.delete()
+
+		try {
+                	def OutputStructure struct = Base.entryPoint(
+                        	sourceFiles, dependencies, null, null
+                	)
+		} catch (Exception e) {
+			println e.toString()
+		}
             }
         }
     }
+    //endregion
     //endregion
 }
