@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat
+
 plugins {
     id 'java-gradle-plugin'
     id 'groovy'
@@ -7,6 +9,69 @@ plugins {
 
 group groupName
 version versionNumber
+
+task updateVersion {
+    Properties props = new Properties()
+    InputStream ins = new FileInputStream(file("gradle.properties"))
+    props.load(ins)
+
+    ant.replaceregexp(
+            match: 'V[0-9]{2}[.][0-9]{2}[.][0-9]{2}',
+            replace: props.getProperty("versionNumber"),
+            flags: 'g',
+            byline: true) {
+
+        fileset(
+                dir: '.',
+                includes: 'README.rst'
+        )
+        //fileset(
+        //        dir: '.',
+        //        includes: 'Makefile'
+        //)
+        fileset(
+                dir: 'src/main/java/vt/edu/gradleguard/core',
+                includes: 'Utils.java'
+        )
+    }
+
+    /*
+    ant.replace(
+            dir: 'src/main/java/',
+            token: '@VERSION@',
+            value: props.getProperty("versionNumber").replace("V", "")
+    )
+
+    ant.replace(
+            dir: 'src/main/java/',
+            token: '@version $Id: $Id',
+            value: '@version ' + props.getProperty("versionNumber").replace("V", "")
+    )
+    */
+}
+
+task updateCopyRightYear {
+    Properties props = new Properties()
+    InputStream ins = new FileInputStream(file("gradle.properties"))
+    props.load(ins)
+
+    SimpleDateFormat year = new SimpleDateFormat("yyyy")
+
+    ant.replaceregexp(
+            match: 'Copyright © [0-9]{4} GradleGuard',
+            replace: 'Copyright © ' + year.format(new Date()) + ' GradleGuard',
+            flags: 'g',
+            byline: true) {
+
+        fileset(
+                dir: '.',
+                includes: '*.rst'
+        )
+    }
+}
+
+build.dependsOn(updateVersion)
+build.dependsOn(updateCopyRightYear)
 
 publishing {
     publications {
@@ -66,7 +131,6 @@ repositories {
 
 //Creating the Uber Jar
 jar {
-
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
@@ -81,7 +145,7 @@ dependencies {
 
     testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
 
-    implementation name: 'cryptoguard'
+    compile name: 'cryptoguard'
 }
 test {
     useJUnitPlatform()

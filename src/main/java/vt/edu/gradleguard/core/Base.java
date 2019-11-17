@@ -10,11 +10,13 @@ import java.util.ArrayList;
 public class Base {
 
     public static OutputStructure entryPoint(ArrayList<String> sources, ArrayList<String> dependencies, String fileOut, String mainFile) throws ExceptionHandler {
+        //immutable unfortunately
+        //TODO - return this
         EnvironmentInformation singleton = null;
 
-        EntryPoint_Plugin.main(sources, dependencies, fileOut, mainFile, singleton);
+        EntryPoint_Plugin.main(sources, dependencies, fileOut, mainFile, singleton, 0);
 
-        return singleton.getOutput();
+        return null;
     }
 
 }

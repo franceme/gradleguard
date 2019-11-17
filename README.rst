@@ -1,5 +1,5 @@
 ##################################################################
-GradleGuard - CryptoGuard Gradle Plugin V00.00.00 - Still Creating
+GradleGuard - CryptoGuard Gradle Plugin V00.00.10 - Still Creating
 ##################################################################
 
 The gradle plugin to use Cryptoguard within the build process
@@ -22,10 +22,10 @@ FAQ
 Disclaimer
 ===============
 
-CryptoGuard is a research prototype under GNU General Public License 3.0
+GradleGuard is a research prototype under GNU General Public License 3.0
 --------------------------------------------------------------------------------
 
- Copyright © 2019 CryptoGuard
+ Copyright © 2019 GradleGuard
 
  This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or any later version.
 

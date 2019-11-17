@@ -1,5 +1,6 @@
 package vt.edu.gradleguard
 
+
 import frontEnd.MessagingSystem.routing.outputStructures.OutputStructure
 import groovy.io.FileType
 import org.gradle.api.Plugin
@@ -51,6 +52,21 @@ class GradleGuardPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
 
+        //region Retrieve Version
+        project.task('version') {
+
+            //Group is the task groups, on the side, ()
+            group = Utils.group
+
+            doLast {
+                println Utils.cmdSplit
+                println "Gradleguard Version: " + Utils.projectVersion
+                println "Cryptoguard Version: " + util.Utils.projectVersion
+                println Utils.cmdSplit
+            }
+
+        }
+        //endregion
         //region Preview Files
         //task - the name of the task
         project.task('previewFiles') {
@@ -91,13 +107,13 @@ class GradleGuardPlugin implements Plugin<Project> {
                 println "Found the following source files"
                 sourceFiles.each {
                     file ->
-                        println(file.getAbsolutePath())
+                        println(file.getName())
                 }
 
                 println "Found the following dependencies"
                 dependencies.each {
                     dep ->
-                        println(dep.file.getAbsolutePath())
+                        println(dep.file.getName())
                 }
 
                 def File outputFile = new File(project.buildDir, "tmp/_cryptoguard.json")
@@ -149,13 +165,31 @@ class GradleGuardPlugin implements Plugin<Project> {
                 if (outputFile.exists())
                     outputFile.delete()
 
-		try {
-                	def OutputStructure struct = Base.entryPoint(
-                        	sourceFiles, dependencies, null, null
-                	)
-		} catch (Exception e) {
-			println e.toString()
-		}
+                try {
+                    println Utils.cmdSplit
+                    def OutputStructure result = Base.entryPoint(sourceFiles, dependencies, null, null)
+                    /*
+                    println Utils.cmdSplit
+                    if (result.getCollection().size() < 0) {
+                        println "No issues with the code or dependencies"
+                    } else {
+                        result.getCollection().stream().forEach(issue -> {
+                            println "[" + issue.getRuleId() + "] " + issue.getClass() + ":" + issue.getLocations().get(0).getLineStart()
+                            +" :> " + issue.getInfo()
+                        })
+                        for (String key: result.getCountOfBugs().keySet()) {
+                            int count;
+                            if ((count = result.getCountOfBugs().get(key)) > 0) {
+                                println "[" + result + "] = " + count
+                            }
+                        }
+                    }
+                    */
+                    println Utils.cmdSplit
+                } catch (Exception e) {
+                    println "Error"
+                    e.printStackTrace()
+                }
             }
         }
     }
