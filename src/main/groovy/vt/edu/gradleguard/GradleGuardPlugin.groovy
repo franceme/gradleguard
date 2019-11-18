@@ -166,11 +166,7 @@ class GradleGuardPlugin implements Plugin<Project> {
                     outputFile.delete()
 
                 try {
-                    println Utils.cmdSplit
-                    def String result = Base.entryPoint(sourceFiles, dependencies, null, null)
-                    println Utils.cmdSplit
-                    println "Output file can be found at " + result
-                    println Utils.cmdSplit
+                    def String result = Base.entryPoint(sourceFiles, dependencies, outputFile.getAbsolutePath(), null,2)
                 } catch (Exception e) {
                     println "Error"
                     e.printStackTrace()

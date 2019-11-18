@@ -12,7 +12,7 @@ import java.util.function.Function;
 
 public class Base {
 
-    public static String entryPoint(ArrayList<String> sources, ArrayList<String> dependencies, String fileOut, String mainFile) throws ExceptionHandler {
+    public static String entryPoint(ArrayList<String> sources, ArrayList<String> dependencies, String fileOut, String mainFile, int debuggingLevel) throws ExceptionHandler {
 
         Function<AnalysisIssue, String> errorAddition = analysisIssue -> "Adding the issue: " + analysisIssue.toString();
         Function<HashMap<Integer, Integer>, String> bugSummaryHandler = bugSummary -> {
@@ -23,7 +23,17 @@ public class Base {
         };
         Function<Heuristics, String> heuristicsHandler = heuristics -> "Current Heuristics: " + heuristics.toString();
 
-        return EntryPoint_Plugin.main(sources, dependencies, fileOut, mainFile, errorAddition, bugSummaryHandler, heuristicsHandler, 3);
+
+        if (debuggingLevel > 0)
+            System.out.println(Utils.cmdSplit);
+
+        String fileResult = EntryPoint_Plugin.main(sources, dependencies, fileOut, mainFile, errorAddition, bugSummaryHandler, heuristicsHandler, debuggingLevel);
+        System.out.println("Output file can be found at " + fileResult);
+
+        if (debuggingLevel > 0)
+            System.out.println(Utils.cmdSplit);
+
+        return fileOut;
     }
 
 }
