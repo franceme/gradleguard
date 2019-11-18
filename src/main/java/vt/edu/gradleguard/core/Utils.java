@@ -1,5 +1,12 @@
 package vt.edu.gradleguard.core;
 
 public class Utils {
-    public static final String group ="cryptoguard";
+    public static final String group = "gradleguard";
+    public static final String projectVersion = "V00.00.10";
+    public static final String cmdSplit = repeat(80, "=") + "\n";
+
+    public static String repeat(int count, String with) {
+        return new String(new char[count]).replace("\0", with);
+    }
+
 }
