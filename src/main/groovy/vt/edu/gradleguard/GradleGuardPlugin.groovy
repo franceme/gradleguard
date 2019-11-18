@@ -124,7 +124,7 @@ class GradleGuardPlugin implements Plugin<Project> {
             }
         }
         //endregion
-        //region Preview Files
+        //region Scan Files
         //task - the name of the task
         project.task('scanFiles') {
 
@@ -167,24 +167,9 @@ class GradleGuardPlugin implements Plugin<Project> {
 
                 try {
                     println Utils.cmdSplit
-                    def OutputStructure result = Base.entryPoint(sourceFiles, dependencies, null, null)
-                    /*
+                    def String result = Base.entryPoint(sourceFiles, dependencies, null, null)
                     println Utils.cmdSplit
-                    if (result.getCollection().size() < 0) {
-                        println "No issues with the code or dependencies"
-                    } else {
-                        result.getCollection().stream().forEach(issue -> {
-                            println "[" + issue.getRuleId() + "] " + issue.getClass() + ":" + issue.getLocations().get(0).getLineStart()
-                            +" :> " + issue.getInfo()
-                        })
-                        for (String key: result.getCountOfBugs().keySet()) {
-                            int count;
-                            if ((count = result.getCountOfBugs().get(key)) > 0) {
-                                println "[" + result + "] = " + count
-                            }
-                        }
-                    }
-                    */
+                    println "Output file can be found at " + result
                     println Utils.cmdSplit
                 } catch (Exception e) {
                     println "Error"
@@ -192,7 +177,7 @@ class GradleGuardPlugin implements Plugin<Project> {
                 }
             }
         }
+        //endregion
     }
-    //endregion
     //endregion
 }
