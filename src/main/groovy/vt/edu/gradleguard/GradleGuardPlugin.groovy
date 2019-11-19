@@ -1,36 +1,58 @@
 package vt.edu.gradleguard
 
-
-import frontEnd.MessagingSystem.routing.outputStructures.OutputStructure
 import groovy.io.FileType
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import vt.edu.gradleguard.core.Base
 import vt.edu.gradleguard.core.Utils
 
+/**
+ * The main class containing all of the tasks for the plugin.
+ * This class handles all of the arguments from the plugin and passes them off into the Cryptoguard wrapper.
+ *
+ * <ul>
+ *     <li>version - Display the version for Gradleguard and Cryptoguard being used</li>
+ *     <li>previewFiles - Display all of the files automatically pulled from </li>
+ *     <li>scanFiles - Scans the files pulled via the file retrieval</li>
+ * </ul>
+ *
+ * @author franceme
+ * @version 00.00.12
+ * @since V00.00.12
+ */
 class GradleGuardPlugin implements Plugin<Project> {
 
     //region Helper Class
+    /**
+     * <p>depKlass</p>
+     *
+     * A subclass to help handle the wrapping for retrieving the dependencies.
+     */
     class depKlass {
+
+        //region Attributes
         String group = '';
         String name = '';
         String version = '';
         File file = null;
+        //endregion
 
+        //region Constructors
+        /**
+         * The constructor for the dependency sub class
+         *
+         * @param group a {@link java.lang.String} object - The group of the dependency
+         * @param name a {@link java.lang.String} object - The name of the dependency
+         * @param version a {@link java.lang.String} object - The version of the dependency
+         */
         depKlass(String group, String name, String version) {
             this.group = group;
             this.name = name;
             this.version = version;
         }
+        //endregion
 
-        public String subPath() {
-            return String.join(System.getProperty('file.separator'), this.group, this.name, this.version)
-        }
-
-        public String fileName() {
-            return this.name + '-' + this.version + '.jar'
-        }
-
+        //region Overridden Methods
         @Override
         public boolean equals(Object obj) {
             if (!obj instanceof depKlass)
@@ -46,6 +68,27 @@ class GradleGuardPlugin implements Plugin<Project> {
                 output += ' file: ' + this.file.getAbsolutePath()
             return output
         }
+        //endregion
+
+        //region region Helper Methods
+        /**
+         * This is a helper method to determine the generated path (by gradle) to get the absolute path of the jar.
+         *
+         * @return a {@link java.lang.String} object - The sub path of the dependency
+         */
+        public String subPath() {
+            return String.join(System.getProperty('file.separator'), this.group, this.name, this.version)
+        }
+
+        /**
+         * A helper method to determine the live name of the jar for the dependency.
+         *
+         * @return a {@link java.lang.String} object -
+         */
+        public String fileName() {
+            return this.name + '-' + this.version + '.jar'
+        }
+        //endregion
     }
     //endregion
     //region Apply
@@ -124,7 +167,7 @@ class GradleGuardPlugin implements Plugin<Project> {
             }
         }
         //endregion
-        //region Preview Files
+        //region Scan Files
         //task - the name of the task
         project.task('scanFiles') {
 
@@ -166,33 +209,14 @@ class GradleGuardPlugin implements Plugin<Project> {
                     outputFile.delete()
 
                 try {
-                    println Utils.cmdSplit
-                    def OutputStructure result = Base.entryPoint(sourceFiles, dependencies, null, null)
-                    /*
-                    println Utils.cmdSplit
-                    if (result.getCollection().size() < 0) {
-                        println "No issues with the code or dependencies"
-                    } else {
-                        result.getCollection().stream().forEach(issue -> {
-                            println "[" + issue.getRuleId() + "] " + issue.getClass() + ":" + issue.getLocations().get(0).getLineStart()
-                            +" :> " + issue.getInfo()
-                        })
-                        for (String key: result.getCountOfBugs().keySet()) {
-                            int count;
-                            if ((count = result.getCountOfBugs().get(key)) > 0) {
-                                println "[" + result + "] = " + count
-                            }
-                        }
-                    }
-                    */
-                    println Utils.cmdSplit
+                    def String result = Base.entryPoint(sourceFiles, dependencies, outputFile.getAbsolutePath(), null,2)
                 } catch (Exception e) {
                     println "Error"
                     e.printStackTrace()
                 }
             }
         }
+        //endregion
     }
-    //endregion
     //endregion
 }

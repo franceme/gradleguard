@@ -25,29 +25,15 @@ task updateVersion {
                 dir: '.',
                 includes: 'README.rst'
         )
-        //fileset(
-        //        dir: '.',
-        //        includes: 'Makefile'
-        //)
+        fileset(
+                dir: '.',
+                includes: 'Makefile'
+        )
         fileset(
                 dir: 'src/main/java/vt/edu/gradleguard/core',
                 includes: 'Utils.java'
         )
     }
-
-    /*
-    ant.replace(
-            dir: 'src/main/java/',
-            token: '@VERSION@',
-            value: props.getProperty("versionNumber").replace("V", "")
-    )
-
-    ant.replace(
-            dir: 'src/main/java/',
-            token: '@version $Id: $Id',
-            value: '@version ' + props.getProperty("versionNumber").replace("V", "")
-    )
-    */
 }
 
 task updateCopyRightYear {

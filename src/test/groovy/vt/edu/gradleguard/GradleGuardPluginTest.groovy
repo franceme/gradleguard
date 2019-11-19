@@ -10,6 +10,8 @@ class GradleGuardPluginTest {
     public void testThePlugin(){
         Project project = ProjectBuilder.builder().build()
         project.pluginManager.apply 'vt.edu.gradleguard.plugin'
+        Assertions.assertNotNull(project.tasks.version)
         Assertions.assertNotNull(project.tasks.previewFiles)
+        Assertions.assertNotNull(project.tasks.scanFiles)
     }
 }
