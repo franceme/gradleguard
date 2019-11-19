@@ -10,8 +10,27 @@ import java.util.HashMap;
 import java.util.function.Function;
 
 
+/**
+ * The java file routing and handling the Entrypoint hand off.
+ *
+ * @author franceme
+ * @version 00.00.12
+ * @since V00.00.12
+ */
 public class Base {
 
+    /**
+     * <p>entryPoint.</p>
+     *
+     * This method hands off all of the necessary information into the Entrypoint Plugin from Cryptoguard.
+     *
+     * @param sources a {@link java.util.ArrayList} object - The source files (absolute paths).
+     * @param dependencies a {@link java.util.ArrayList} object - The dependency files (absolute paths).
+     * @param fileOut a {@link java.lang.String} object - The cryptoguard output file to be written to.
+     * @param mainFile a {@link java.lang.String} object - Specifying the main class file.
+     * @param debuggingLevel a int - The debugging level, used for the logger level.
+     * @return a {@link java.lang.String} object - The file path to the output file or the error message.
+     */
     public static String entryPoint(ArrayList<String> sources, ArrayList<String> dependencies, String fileOut, String mainFile, int debuggingLevel) throws ExceptionHandler {
 
         Function<AnalysisIssue, String> errorAddition = analysisIssue -> "Adding the issue: " + analysisIssue.toString();
