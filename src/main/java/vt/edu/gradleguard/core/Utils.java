@@ -6,13 +6,13 @@ package vt.edu.gradleguard.core;
  *
  * @author franceme
  * @version 00.00.12
- * @since V00.00.12
+ * @since V00.01.00
  */
 public class Utils {
     /** Constant <code>group="gradleguard"</code> */
     public static final String group = "gradleguard";
-    /** Constant <code>projectVersion="V00.00.12"</code> */
-    public static final String projectVersion = "V00.00.12";
+    /** Constant <code>projectVersion="V00.01.00"</code> */
+    public static final String projectVersion = "V00.01.00";
     /** Constant <code>cmdSplit="repeat(80, =) + \n"</code> */
     public static final String cmdSplit = repeat(80, "=") + "\n";
 

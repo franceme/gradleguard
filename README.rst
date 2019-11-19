@@ -1,5 +1,5 @@
 ##################################################################
-GradleGuard - CryptoGuard Gradle Plugin V00.00.12 - Still Creating
+GradleGuard - CryptoGuard Gradle Plugin V00.01.00 - Still Creating
 ##################################################################
 
 The gradle plugin to use Cryptoguard within the build process
