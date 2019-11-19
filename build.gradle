@@ -102,8 +102,16 @@ publishing {
     repositories {
         // Just to get it started working
         //mavenLocal()
-        maven {
-            url = "$buildDir/repo"
+        //maven {
+        //    url = "$buildDir/repo"
+        //}
+	maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/franceme/gradleguard")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("GPR_USER")
+                password = project.findProperty("gpr.key") ?: System.getenv("GPR_API_KEY")
+            }
         }
     }
 }
