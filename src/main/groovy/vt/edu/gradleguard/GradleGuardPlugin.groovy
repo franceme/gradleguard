@@ -123,7 +123,7 @@ class GradleGuardPlugin implements Plugin<Project> {
                 ArrayList<File> sourceFiles = new ArrayList<>()
                 ArrayList<depKlass> dependencies = new ArrayList<>()
 
-                new File(project.projectDir.toString(), 'tempBuild/classes/').eachFileRecurse(FileType.FILES) { file ->
+                new File(project.projectDir.toString(), 'build/classes/').eachFileRecurse(FileType.FILES) { file ->
                     sourceFiles.add(file)
                 }
 
