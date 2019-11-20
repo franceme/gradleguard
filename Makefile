@@ -2,7 +2,7 @@
 dir=./
 java=${JAVA_HOME}/bin/java
 
-ver=V00.01.00
+ver=V00.01.01
 name=gradleguard
 #endregion
 
