@@ -14,15 +14,6 @@ plugins {
 group groupName
 version versionNumber
 
-// String[] splitIntoTokens(String commandLine) {
-//     String regex = "(([\"']).*?\\2|(?:[^\\\\ ]+\\\\\\s+)+[^\\\\ ]+|\\S+)";
-//     Matcher matcher = Pattern.compile(regex).matcher(commandLine);
-//     ArrayList<String> result = new ArrayList<>();
-//     while (matcher.find()) {
-//         result.add(matcher.group());
-//     }
-//     return result.toArray();   
-// }
 
 task flag {
     if (project.hasProperty("-o"))
@@ -272,6 +263,7 @@ dependencies {
     //testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
 
     compile name: 'cryptoguard'
+    compile files('libs/cryptoguard.jar')
 }
 test {
     //useJUnitPlatform()
