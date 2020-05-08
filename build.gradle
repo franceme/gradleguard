@@ -15,122 +15,7 @@ group groupName
 version versionNumber
 
 
-task flag {
-    if (project.hasProperty("-o"))
-    {
-        // args += '-o'
-        String var =  project.getProperty('-o')
-        println "-o " + var
-    }
-    if (project.hasProperty("-new"))
-    {
-        // args += '-new'
-        String var =  project.getProperty('-new')
-        println "-new " + var
-    }
-    if (project.hasProperty("-t"))
-    {
-        // args += '-t'
-        String var =  project.getProperty('-t')
-        println "-t " + var
-    }
-    if (project.hasProperty("-m"))
-    {
-        // args += '-m'
-        String var =  project.getProperty('-m')
-        println "-m " + var
-    }
-    if (project.hasProperty("-n"))
-    {
-        // args += '-n'
-        String var =  project.getProperty('-n')
-        println "-n " + var
-    }
-    if (project.hasProperty("-exp"))
-    {
-        // args += '-exp'
-        String var =  project.getProperty('-exp')
-        println "-exp " + var
-    }
-    if (project.hasProperty("-V"))
-    {
-        // args += '-V'
-        String var =  project.getProperty('-V')
-        println "-V " + var
-    }
-    if (project.hasProperty("-vx"))
-    {
-        // args += '-vx'
-        String var =  project.getProperty('-vx')
-        println "-vx " + var
-    }
-    if (project.hasProperty("-v"))
-    {
-        // args += '-v'
-        String var =  project.getProperty('-v')
-        println "-v " + var
-    }
-    if (project.hasProperty("-vv"))
-    {
-        // args += '-vv'
-        String var =  project.getProperty('-vv')
-        println "-vv " + var
-    }
-    if (project.hasProperty("-ts"))
-    {
-        // args += '-ts'
-        String var =  project.getProperty('-ts')
-        println "-ts " + var
-    }
-    if (project.hasProperty("-depth"))
-    {
-        // args += '-depth'
-        String var =  project.getProperty('-depth')
-        println "-depth " + var
-    }
-    if (project.hasProperty("-L"))
-    {
-        // args += '-L'
-        String var =  project.getProperty('-L')
-        println "-L " + var
-    }
-    if (project.hasProperty("-java"))
-    {
-        // args += '-java'
-        String var =  project.getProperty('-java')
-        println "-java " + var
-    }
-    if (project.hasProperty("-android"))
-    {
-        // args += '-android'
-        String var =  project.getProperty('-android')
-        println "-android " + var
-    }
-    if (project.hasProperty("-H"))
-    {
-        // args += '-H'
-        String var =  project.getProperty('-H')
-        println "-H " + var
-    }
-    if (project.hasProperty("-st"))
-    {
-        // args += '-st'
-        String var =  project.getProperty('-st')
-        println "-st " + var
-    }
-    if (project.hasProperty("-h"))
-    {
-        // args += '-h'
-        String var =  project.getProperty('-h')
-        println "-h " + var
-    }
-    if (project.hasProperty("-main"))
-    {
-        // args += '-main'
-        String var =  project.getProperty('-main')
-        println "-main " + var
-    }
-}
+
 
 task updateVersion {
     Properties props = new Properties()
@@ -250,7 +135,6 @@ jar {
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
-        zip64=true
 }
 
 dependencies {
