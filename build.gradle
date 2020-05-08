@@ -146,7 +146,7 @@ dependencies {
     //compile 'GROUP:NAME:VERSION'
     //testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
 
-    compile name: 'cryptoguard'
+    //compile name: 'cryptoguard'
     compile files('libs/cryptoguard.jar')
 }
 test {
